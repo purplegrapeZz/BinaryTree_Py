@@ -16,12 +16,12 @@ class Pair:  # 遍历二叉树时需要用到的结构
 
 class CreateTree:  # 二叉树结构实例
 	def __init__(self, maxitems=10):  # 初始化函数,默认最大节点数为10
-		self.root = None  # 二叉树根节点
-		self.size = 0  # 二叉树节点数
+		self.__root = None  # 二叉树根节点
+		self.__size = 0  # 二叉树节点数
 		self.maxitems = maxitems  # 可包含最大节点数
 
 	def TreeIsEmpty(self):  # 二叉树接口函数,检查树是否为空
-		if self.root is None:
+		if self.__root is None:
 			print('Tree is empty.')
 			return 1
 		else:
@@ -29,15 +29,15 @@ class CreateTree:  # 二叉树结构实例
 			return 0
 
 	def TreeIsFull(self):  # 二叉树接口函数,检查树是否已满
-		if self.size == self.maxitems:
+		if self.__size == self.maxitems:
 			print('Tree is full!')
 			return 1
 		else:
 			return 0
 
 	def TreeItemCount(self):  # 检查二叉树包含的节点数
-		print('当前节点数:', self.size)
-		return self.size
+		print('当前节点数:', self.__size)
+		return self.__size
 
 	def AddItem(self, **item):  # 二叉树重要接口函数,为树添加项目,请注意传入参数格式
 		if self.TreeIsFull():  # 先判断树是否已满,如果已满返回False.
@@ -49,12 +49,12 @@ class CreateTree:  # 二叉树结构实例
 		else:  # 树中有空位且项目不重复则在树中新建节点并存入项目
 			node = Node()  # 使用Node类初始化一个节点
 			node.item = item  # 将新增项目存入新建的节点中
-			self.size += 1  # 二叉树节点数+1
-			if self.root is None:  # 若根节点为空,把根节点设为新节点
-				self.root = node
+			self.__size += 1  # 二叉树节点数+1
+			if self.__root is None:  # 若根节点为空,把根节点设为新节点
+				self.__root = node
 				print('成功创建根节点!')
 			else:  # 若根节点不为空,以新建的节点为参数传入__AddNode函数,使新增的节点加入二叉树
-				self.__AddNode(node, self.root)  # node为参数调用__AddNode接口函数
+				self.__AddNode(node, self.__root)  # node为参数调用__AddNode接口函数
 
 	def InTree(self, item):  # 用户接口函数,使用__SeekItem函数判断树中项目是否存在
 		if not isinstance(item, dict):  # 判读参数传入格式,项目以字典格式保存
@@ -90,18 +90,18 @@ class CreateTree:  # 二叉树结构实例
 			if look.child is None:  # 未找到项目存在的节点,树中不包含该项目,提前返回false
 				return 0
 			if look.parent is None:  # 若找到所需要删除项目位置为根节点,则删除根节点
-				self.__DeleteNode(self.root)
+				self.__DeleteNode(self.__root)
 			elif look.parent.left == look.child:  # 找到项目位于父节点中的左子树,操作删除父节点的左子树
 				self.__DeleteNode(look.parent.left)
 			else:
 				self.__DeleteNode(look.parent.right)  # 若前几项都不满足,则处于父节点右子树,操作删除之
-			self.size -= 1
+			self.__size -= 1
 			print('删除成功')
 			return 1
 
 	def DeleteAll(self):  # 用户接口函数,清空二叉树,调用DeleteAllNodes函数实现
-		if self.root is not None:
-			self.DeleteAllNodes(self.root)
+		if self.__root is not None:
+			self.DeleteAllNodes(self.__root)
 
 	def DeleteAllNodes(self, root):  # 删除以传入节点为根节点的所有节点,为递归函数,从根节点开始,递归向下,同理遍历函数
 		if root is not None:
@@ -112,7 +112,7 @@ class CreateTree:  # 二叉树结构实例
 
 	def __SeekItem(self, item):  # 私有,重要函数,寻找项目所在节点,调用__Toleft/__Toright函数判断左右
 		look = Pair()  # 初始化寻找实例
-		look.child = self.root
+		look.child = self.__root
 		if look.child is None:
 			return look
 		while look.child is not None:
@@ -204,7 +204,7 @@ class CreateTree:  # 二叉树结构实例
 
 	def Traverse(self):  # 遍历二叉树,调用下方__InOrder函数
 		print('二叉树遍历:')
-		self.__InOrder(self.root)
+		self.__InOrder(self.__root)
 
 	def __InOrder(self, root):  # 私有,遍历函数的实现函数,为递归函数,原理与删除节点相同
 		if root is not None:
@@ -217,7 +217,7 @@ class CreateTree:  # 二叉树结构实例
 		print('SearchItem:', item)
 		print('Result:')
 		look = Pair()  # 初始化寻找实例
-		look.child = self.root
+		look.child = self.__root
 		if look.child is None:
 			print('此树为空树,请添加项目')
 			return 0
