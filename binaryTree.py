@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 简单二叉树Python实现
+# 基础二叉树Python实现
 
 class Node:  # 节点结构
 	def __init__(self):
